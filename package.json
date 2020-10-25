@@ -9,6 +9,9 @@
   },
   "author": "",
   "license": "ISC",
+  "repository": {
+    "url": "https://github.com/ol-loginov/parcel-reporter-entries"
+  },
   "source": "src/Reporter.ts",
   "main": "lib/Reporter.js",
   "devDependencies": {
