@@ -1,6 +1,6 @@
 {
   "name": "parcel-reporter-entries",
-  "version": "2.0.0-beta.1-1",
+  "version": "2.0.0-beta.1-2",
   "description": "",
   "scripts": {
     "build": "rimraf ./target && babel src/ -d lib/",
@@ -12,7 +12,6 @@
   "repository": {
     "url": "https://github.com/ol-loginov/parcel-reporter-entries"
   },
-  "source": "src/Reporter.ts",
   "main": "lib/Reporter.js",
   "devDependencies": {
     "@babel/cli": "^7.12.1",
@@ -30,7 +29,7 @@
     "yaml": "^1.10.0"
   },
   "files": [
-    "src/*.js"
+    "lib/*.js"
   ],
   "engines": {
     "parcel": "^2.0.0-beta.1",
