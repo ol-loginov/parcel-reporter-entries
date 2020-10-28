@@ -70,6 +70,11 @@ class YmlWriter extends BaseWriter {
 
         let parent = undefined;
 
+        this.fromPrefix = this.getConfigStringValue(options, 'from-prefix', '');
+        this.fromSuffix = this.getConfigStringValue(options, 'from-suffix', '');
+        this.toPrefix = this.getConfigStringValue(options, 'to-prefix', '');
+        this.toSuffix = this.getConfigStringValue(options, 'to-suffix', '');
+
         if (options['yml-write'] === 'array') {
             parent = [];
 
@@ -102,8 +107,15 @@ class YmlWriter extends BaseWriter {
         this.schema = container;
     }
 
+    getConfigStringValue(config, key, defaultString) {
+        if (key in config) {
+            return `${config[key]}`;
+        }
+        return defaultString;
+    }
+
     writeFile(from: string, to: string) {
-        this.schemaAppender(from, to);
+        this.schemaAppender(`${this.fromPrefix}${from}${this.fromSuffix}`, `${this.toPrefix}${to}${this.toSuffix}`);
         fs.writeFileSync(this.file, YAML.stringify(this.schema));
     }
 }
