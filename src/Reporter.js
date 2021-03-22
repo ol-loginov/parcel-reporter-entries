@@ -1,3 +1,4 @@
+//@flow
 import {Reporter} from '@parcel/plugin';
 import {Config} from "./Config";
 import {PluginLogger} from '@parcel/logger';
@@ -15,11 +16,11 @@ export default new Reporter({
             }
 
             const entryRoot = opts.options.entryRoot;
-            const distDir = opts.options.distDir;
 
             opts.event.bundleGraph.getBundles()
                 .filter(bundle => bundle.isEntry)
                 .forEach(bundle => {
+                    const distDir = bundle.target.distDir;
                     const to = path.relative(distDir, bundle.filePath);
 
                     bundle.getEntryAssets().forEach(asset => {
