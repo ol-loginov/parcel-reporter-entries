@@ -20,6 +20,7 @@ Plugin takes all config from package.json file. Example of config is below:
   
     "parcel-reporter-entries": {
         "file": "src/main/resources/application-bundle.yml",
+        "assetRoot": "src/webapp/scripts" /* path to relativize input assets against */,
         "yml-write": "array",
         "yml-parent": "app/some/parent",
         "yml-array-from": "from",
@@ -36,6 +37,7 @@ This example:
     1) "yml-parent": slash-separated path to element where to put file names map
     2) "yml-array-from": for "array" mode - field for asset file name
     2) "yml-array-to": for "array" mode - field for bundle file name
+3) It uses `assetRoot` to make relative input asset name. If input assets is 'src/webapp/source/test/script1.js' and `assetRoot`is "src/webapp", then only "source/test/script1.js" will be print as input asset file path 
 
 ## Options for output
 
