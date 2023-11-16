@@ -6,9 +6,11 @@ const PACKAGE_JSON_SECTION = "parcel-reporter-entries";
 
 export class Config {
     writer: Writer
+    assetRoot: string
 
     constructor() {
         this.writer = createWriter(null);
+        this.assetRoot = null;
     }
 
     loadFromPackageFolder(rootFolder: string) {
@@ -22,6 +24,10 @@ export class Config {
         const reportConfig = packageSection;
         if (!('file' in reportConfig)) {
             throw new Error(`Set "file" in report for ${PACKAGE_JSON_SECTION}`);
+        }
+
+        if ('assetRoot' in reportConfig) {
+            this.assetRoot = reportConfig.assetRoot;
         }
 
         const file = path.resolve(rootFolder, reportConfig.file);

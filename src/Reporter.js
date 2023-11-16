@@ -7,6 +7,7 @@ import path from 'path';
 // noinspection JSUnusedGlobalSymbols
 export default new Reporter({
     writer: null,
+    assetRoot: null,
 
     async report(opts: { event: { type: string }, options: PluginOptions, logger: PluginLogger }) {
         if (opts.event.type === 'buildSuccess' && opts.event.bundleGraph) {
@@ -23,8 +24,11 @@ export default new Reporter({
                     const targetFile = path.relative(target.distDir, bundle.filePath);
 
                     bundle.getEntryAssets().forEach(asset => {
-                        const entryRoot = bundleGraph.getEntryRoot(target);
-                        const sourceFile = path.relative(entryRoot, asset.filePath);
+                        let assetRoot = bundleGraph.getEntryRoot(target);
+                        if (this.assetRoot) {
+                            assetRoot = path.resolve(opts.options.projectRoot, this.assetRoot || '.');
+                        }
+                        const sourceFile = path.relative(assetRoot, asset.filePath);
                         this.writer.add(sourceFile, (target.publicUrl || '/') + targetFile);
                     })
                 });
@@ -39,6 +43,7 @@ export default new Reporter({
                 throw Error('No writer spec has been found in project. Set package.json#parcel-reporter-entries to configure');
             }
             this.writer = config.writer;
+            this.assetRoot = config.assetRoot;
         }
     },
 
