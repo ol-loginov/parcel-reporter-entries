@@ -12,21 +12,21 @@ export default new Reporter({
         if (opts.event.type === 'buildSuccess' && opts.event.bundleGraph) {
             this.ensureConfig(opts.options.projectRoot, opts.options.packageManager, opts.logger);
             if (!this.writer) {
+                opts.logger.warn({message: "no writer, skip out"});
                 return;
             }
 
-            const entryRoot = opts.options.entryRoot;
-
-            opts.event.bundleGraph.getBundles()
-                .filter(bundle => bundle.isEntry)
+            const bundleGraph = opts.event.bundleGraph;
+            bundleGraph.getBundles()
                 .forEach(bundle => {
-                    const distDir = bundle.target.distDir;
-                    const to = path.relative(distDir, bundle.filePath);
+                    const target = bundle.target;
+                    const targetFile = path.relative(target.distDir, bundle.filePath);
 
                     bundle.getEntryAssets().forEach(asset => {
-                        const from = path.relative(entryRoot, asset.filePath);
-                        this.writer.add(from, to);
-                    });
+                        const entryRoot = bundleGraph.getEntryRoot(target);
+                        const sourceFile = path.relative(entryRoot, asset.filePath);
+                        this.writer.add(sourceFile, (target.publicUrl || '/') + targetFile);
+                    })
                 });
         }
     },

@@ -1,6 +1,0 @@
-{
-  "presets": [
-    "@parcel/babel-preset"
-  ],
-  "sourceMaps": "inline"
-}
